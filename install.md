@@ -340,9 +340,17 @@ install by changing the `profile` value.
     Where:
 
     - `<PROFILE-VALUE>` is a value such as `full` or `dev-light`.
-    - `<KP-DEFAULT-REPO>` has a value such as `us-east4-docker.pkg.dev/some-project-id/test-private-repo/apps`.
-        * The dependencies Tanzu Build Service needs will be written to this location.
-    - `<DOMAIN-NAME>` has a value such as `educates.example.com`.
+    - `<KP-DEFAULT-REPO>` is a writable repository in your registry. Tanzu Build Service dependencies are written to this location.
+        * Examples:
+          * Harbor `kp_default_repository: "my-harbor.io/my-project/build-service"`
+          * Dockerhub `kp_default_repository: "my-dockerhub-user/build-service"` or `kp_default_repository: "index.docker.io/my-user/build-service"`
+          * GCR `kp_default_repository: "gcr.io/my-project/build-service"`
+          * Artifactory `kp_default_repository: "my-jfrog.io/my-project/build-service"`
+      - `<KP-DEFAULT-REPO-USERNAME>` is the username that can write to the `<KP-DEFAULT-REPO>`. You should be able to `docker push` to this location with this credential.
+        * For GCR, use `kp_default_repository_username: _json_key`
+      - `<KP-DEFAULT-REPO-PASSWORD>` is the password for the user that can write to the `<KP-DEFAULT-REPO>`. You should be able to `docker push` to this location with this credential.
+        * For GCR, use the contents of the service account json key: `kp_default_repository_password: "$(cat service-account.json)"`
+      - `<DOMAIN-NAME>` has a value such as `educates.example.com`.
 
     To view possible configuration settings for a package, run:
 
